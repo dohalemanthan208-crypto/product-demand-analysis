@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useDataContext } from '@/context/DataContext';
 import DemandDataForm from '@/components/DemandDataForm';
 
 export default function Home() {
-  const [submittedData, setSubmittedData] = useState<any[]>([]);
+  const { entries, addEntry } = useDataContext();
 
   const handleFormSubmit = (data: any) => {
-    setSubmittedData([...submittedData, { ...data, id: Date.now() }]);
+    addEntry(data);
   };
 
   return (
@@ -53,7 +53,7 @@ export default function Home() {
                   Data Submissions
                 </h3>
                 <div className="text-4xl font-bold text-indigo-600 mb-2">
-                  {submittedData.length}
+                  {entries.length}
                 </div>
                 <p className="text-sm text-gray-600">
                   Total entries submitted
@@ -89,7 +89,7 @@ export default function Home() {
         </div>
 
         {/* Recent Submissions */}
-        {submittedData.length > 0 && (
+        {entries.length > 0 && (
           <div className="mt-12">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
               <div className="px-8 py-6 border-b border-gray-200">
@@ -119,7 +119,7 @@ export default function Home() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {submittedData.map((entry) => (
+                    {entries.map((entry) => (
                       <tr key={entry.id} className="hover:bg-gray-50">
                         <td className="px-8 py-4 text-sm text-gray-900 font-medium">
                           {entry.product}
@@ -145,7 +145,7 @@ export default function Home() {
                           {entry.units}
                         </td>
                         <td className="px-8 py-4 text-sm text-gray-600">
-                          {new Date(entry.id).toLocaleDateString()}
+                          {new Date(entry.timestamp).toLocaleDateString()}
                         </td>
                       </tr>
                     ))}
