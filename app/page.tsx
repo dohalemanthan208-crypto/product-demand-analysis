@@ -3,6 +3,11 @@
 import { useDataContext } from '@/context/DataContext';
 import DemandDataForm from '@/components/DemandDataForm';
 
+const formatDate = (timestamp: string | number | Date) => {
+  const d = new Date(timestamp);
+  return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+};
+
 export default function Home() {
   const { entries, addEntry } = useDataContext();
 
@@ -11,7 +16,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-50">
       {/* Header */}
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -145,7 +150,7 @@ export default function Home() {
                           {entry.units}
                         </td>
                         <td className="px-8 py-4 text-sm text-gray-600">
-                          {new Date(entry.timestamp).toLocaleDateString()}
+                          {formatDate(entry.timestamp)}
                         </td>
                       </tr>
                     ))}

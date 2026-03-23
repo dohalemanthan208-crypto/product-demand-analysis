@@ -12,6 +12,16 @@ interface FormData {
   brand?: string;
 }
 
+interface FormErrors {
+  product?: string;
+  locality?: string;
+  units?: string;
+  weekDate?: string;
+  notes?: string;
+  brand?: string;
+  demandStatus?: string;
+}
+
 interface DemandDataFormProps {
   onSubmit: (data: FormData) => void;
 }
@@ -71,10 +81,10 @@ export default function DemandDataForm({ onSubmit }: DemandDataFormProps) {
   });
 
   const [submitted, setSubmitted] = useState(false);
-  const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<FormData> = {};
+    const newErrors: FormErrors = {};
 
     if (!formData.product.trim()) {
       newErrors.product = 'Product is required';
@@ -111,7 +121,7 @@ export default function DemandDataForm({ onSubmit }: DemandDataFormProps) {
     }));
 
     // Clear error for this field if it exists
-    if (errors[name as keyof FormData]) {
+    if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({
         ...prev,
         [name]: undefined,
@@ -150,7 +160,7 @@ export default function DemandDataForm({ onSubmit }: DemandDataFormProps) {
     <form onSubmit={handleSubmit} className="space-y-6">
       {submitted && (
         <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-start">
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <svg
               className="h-5 w-5 text-green-400"
               fill="currentColor"
